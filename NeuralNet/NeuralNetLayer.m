@@ -1,54 +1,35 @@
 classdef NeuralNetLayer
     properties
         A;
-        B;
-        
-        
+        b;
     end
     methods
         function obj = NeuralNetLayer(Input,Output)
             %constructor
-            Loutput = length(Output);
-            Linput = length(Input);
-            obj.A = zeros(Loutput,Linput);
-            obj.B = zeros(Loutput,1);
+            obj.A = zeros(Output,Input);
+            obj.b = zeros(Output,1);
 
-            for i = 1:Loutput
-                for j = 1:Linput
-                    obj.A(i,j) = rand();
+            for i = 1:Output
+                for j = 1:Input
+                    obj.A(i,j) = 0.01*rand();
                 end
-                obj.B(i) = rand();
+                obj.b(i) = 0.01*rand();
             end
         end
-        function S = Calculate(obj,Input)
-            N = obj.A*Input + obj.B;
-            S = 1./(1+exp(-N));
-            %dS/dZ = S*(1-S);
+        function S = CalculateLayer(obj,x)
+            Y = obj.A*x + obj.b;
+            S = 1./(1+exp(-Y));
         end
-        function D = Derivative(obj,Input)
-            
-            
+        function dS = dS(obj,x)
+            Y = obj.A*x + obj.b;
+            S = 1./(1+exp(-Y));
+            dS = S.*(1-S);
+        end
+        function obj = Update(obj,dCdW,dCdb,LearningRate,Regulation,BatchSize)
+            obj.A = obj.A + LearningRate*dCdW/BatchSize - Regulation/BatchSize*obj.A;
+            obj.b = obj.b + LearningRate*dCdb/BatchSize;
         end
     end
-    
-    
-    
-    
-    
-    
-end
-
-
-
-
-
-
-
-
-function [ output_args ] = untitled( input_args )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
-
+        
 end
 

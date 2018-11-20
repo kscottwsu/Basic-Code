@@ -103,9 +103,10 @@ Internet = 60;%assume average
 Insurance = 200;%car and renters
 Food = 600;%including eating out
 Fun = 1000;%any misc fun purchases
+MonthlyExpenses = Rent + Electricity + Internet + Insurance + Food + Fun;
 
 MonthlyIncome = Output.PostTaxIncome/12;
-Output.NetMonthlyIncome = MonthlyIncome-Rent-Electricity-Internet-Insurance-Food-Fun;
+Output.NetMonthlyIncome = MonthlyIncome-MonthlyExpenses;
 
 %% 401K Value
 TimeToRetirement = 65-28;
